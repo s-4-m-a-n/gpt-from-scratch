@@ -17,10 +17,7 @@ class Solution:
         # Loss: L = 0.5 * (y_hat - y_true)^2
         L = 0.5 * (y_hat - y_true) ** 2
         # Return: (dL_dw rounded to 5 decimals, dL_db rounded to 5 decimals)
-        dL_dw = []
-        for i in range(len(w)):
-            grad_wi = (y_hat - y_true) * y_hat * (1 - y_hat) * x[i]
-            dL_dw.append(grad_wi)
-
+        dL_dw = (y_hat - y_true) * y_hat * (1 - y_hat) * x        
         dL_db = (y_hat - y_true) * y_hat * (1 - y_hat)
+        
         return np.round(dL_dw, 5), np.round(dL_db, 5)
