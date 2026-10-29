@@ -43,7 +43,7 @@ class Solution:
             elif init_type == "kaiming":
                 std = math.sqrt(2/dims[i])
             else:
-                std = 1
+                std = 1.0
             
             w = torch.randn(dims[i+1], dims[i]) * std
             weights.append(w)
@@ -53,6 +53,6 @@ class Solution:
         for w in weights:
             x = x @ w.T
             x = torch.relu(x)
-            stds.append(round(x.std().item(), 2))
+            stds.append(round(x.std().item(),2))
         return stds
         
