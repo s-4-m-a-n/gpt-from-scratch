@@ -28,19 +28,23 @@ class Solution:
         #    with depth AND the last layer's fraction > 0.1
         # 4. 'healthy' if max dead fraction < 0.1
         # 5. 'healthy' otherwise
+        if len(dead_fractions) == 0:
+            return "healthy"
+
         for f in dead_fractions:
             if f > 0.5:
                 return "use_leaky_relu"
+
         if dead_fractions[0] > 0.3:
             return "reinitialize"
         
-        if dead_fractions[-1] > 0.1:
+        if len(dead_fractions) >= 2:
             is_increasing = True
             for i in range(1, len(dead_fractions)):
                 if dead_fractions[i] < dead_fractions[i-1]:
                     is_increasing = False
                     break
-            if is_increasing:
+            if is_increasing and dead_fractions[-1] > 0.1:
                 return "reduce_learning_rate"
 
         return "healthy"
