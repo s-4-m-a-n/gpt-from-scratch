@@ -8,5 +8,6 @@ class Solution:
         # token_ids: 1D array of integer token IDs
         # Return the embedding vectors for the given token IDs
         # return np.round(your_answer, 5)
-        token_emb = embeddings[token_ids]
+        one_hot = np.eye(embeddings.shape[0])[token_ids] # batch X vocab
+        token_emb = one_hot @ embeddings # (batch X emb)
         return np.round(token_emb, 5)
