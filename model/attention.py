@@ -26,16 +26,17 @@ class SingleHeadAttention(nn.Module):
         # embedded.dim = (B, T, embedding_dim)
         K = self.query(embedded) # (B, T, attention_dim)
         Q = self.key(embedded) # (B, T, attention_dim)
-        v = self.value(embedded) # (B, T, attention_dim)
+        V = self.value(embedded) # (B, T, attention_dim)
         
         context_len, attention_dim = K.shape[1], K.shape[2]
         attention_scores = Q @ torch.transpose(K, 2, 1) / (attention_dim**(1/2))
+        
         lower_triangular = torch.tril(torch.ones(context_len, context_len))
         mask = lower_triangular == 0
         attention_scores = attention_scores.masked_fill(mask, float("-inf"))
         attention_scores = nn.functional.softmax(attention_scores, dim=2)
 
-        return torch.round(attention_scores @ v, decimals=4)
+        return torch.round(attention_scores @ V, decimals=4)
 
 
 
