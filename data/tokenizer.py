@@ -28,9 +28,6 @@ class Solution:
             best_count = max(pairs.values())
             candidates = sorted(p for p, c in pairs.items() if c == best_count)
             best = candidates[0]
-            # sorted_pairs = sorted(pairs.items(), key = lambda x: x[1], reverse=True)
-            # best = sorted_pairs[0][0]
-
             merges.append(best)
 
             # merge all non-overlapping occurrences left to right
