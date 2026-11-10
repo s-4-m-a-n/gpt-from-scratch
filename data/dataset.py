@@ -13,7 +13,9 @@ class Solution:
         rand_start_idxs = torch.randint(low=0,
                                         high=len(words)-context_length,
                                         size=(batch_size, 1))
-
-        X = [words[i:i+context_length] for i in rand_start_idxs]
-        Y = [words[i+1:i+1+context_length] for i in rand_start_idxs]
+        X = []
+        Y = []
+        for i in rand_start_idxs:
+            X.append(words[i:i+context_length])
+            Y.append(words[i+1:i+1+context_length])
         return X, Y
