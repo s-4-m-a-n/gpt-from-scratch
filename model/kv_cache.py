@@ -47,13 +47,13 @@ class CachedAttention(nn.Module):
 
         full_k, full_v = kv_cache.update(k, v)
 
-        attention_scores = q @ full_k.transpose(-2, -1)* k.shape[-1]**-0.5
+        dot_prod = q @ full_k.transpose(-2, -1)* k.shape[-1]**-0.5
 
         lower_triangular = torch.tril(torch.ones(k.shape[1], k.shape[1]))
         mask = lower_triangular == 0
-        attention_scores = attention_scores.masked_fill(mask, float("-inf"))
+        dot_prod = dot_prod.masked_fill(mask, float("-inf"))
 
-        attention_weights = torch.softmax(attention_scores, dim=-1)
+        attention_weights = torch.softmax(dot_prod, dim=-1)
         output = attention_weights @ full_v
 
         return torch.round(output, decimals=4), kv_cache
